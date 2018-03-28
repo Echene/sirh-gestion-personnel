@@ -17,6 +17,32 @@ public class EditerCollaborateursController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// recupere la valeur d'un parametre dont le nom est avecPhoto
 		String matricule = req.getParameter("matricule");
+
+		resp.setContentType("text/html");
+
+		if (matricule == null) {
+			resp.sendError(400, "Un matricule est attendu");
+		} else {
+			// code HTML ecrit dans le corps de la reponse
+			resp.getWriter().write("<h1>Edition d'un collaborateur</h1><h2>Matricule : " + matricule + "</h2>" + "<ul>" + 
+			"<li>POST /collaborateurs/editer</li>" +
+					"<ul><li>La servlet vérifie que les parametres suivants sont renseignes : </li>" +
+						"<ul>"
+							+ "<li>Matricule,</li>"
+							+ "<li>Titre,</li>"
+							+ "<li>Nom,</li>"
+							+ "<li>Prenom</li>"
+					+ "</ul>"	
+					+ "</ul>"
+					+ "</ul>");
+		}
+
+	}
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// recupere la valeur d'un parametre dont le nom est avecPhoto
+		String matricule = req.getParameter("matricule");
 		String titre = req.getParameter("titre");
 		String nom = req.getParameter("nom");
 		String prenom = req.getParameter("prenom");
