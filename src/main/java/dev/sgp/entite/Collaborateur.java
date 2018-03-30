@@ -1,11 +1,10 @@
-/**
- * 
- */
 package dev.sgp.entite;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Random;
+
+import dev.sgp.service.DepartementService;
 
 /**
  * @author Emmanuel
@@ -36,6 +35,12 @@ public class Collaborateur {
 
 	/** photo : String */
 	private String photo;
+	
+	/** intitulePoste : String */
+	private String intitulePoste;
+	
+	/** departement : Departement */
+	private Departement departement;
 
 	/** dateheureCreation : ZonedDateTime */
 	private LocalDateTime dateHeureCreation;
@@ -61,6 +66,8 @@ public class Collaborateur {
 		this.photo = "cent_cent.png";
 		this.dateHeureCreation = LocalDateTime.now();
 		this.actif = true;
+		
+		this.departement = new DepartementService().listerDepartements().get(1);
 
 	}
 
@@ -136,6 +143,20 @@ public class Collaborateur {
 		return photo;
 	}
 
+	/** Getter
+	 * @return the intitulePoste
+	 */
+	public String getIntitulePoste() {
+		return intitulePoste;
+	}
+
+	/** Getter
+	 * @return the departement
+	 */
+	public Departement getDepartement() {
+		return departement;
+	}
+	
 	/**
 	 * Getter
 	 * 
@@ -252,6 +273,20 @@ public class Collaborateur {
 	 */
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
+	}
+
+	/** Setter
+	 * @param intitulePoste the intitulePoste to set
+	 */
+	public void setIntitulePoste(String intitulePoste) {
+		this.intitulePoste = intitulePoste;
+	}
+
+	/** Setter
+	 * @param departement the departement to set
+	 */
+	public void setDepartement(Departement departement) {
+		this.departement = departement;
 	}
 
 }

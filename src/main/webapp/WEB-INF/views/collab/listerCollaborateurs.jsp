@@ -1,5 +1,7 @@
+<%@page import="dev.sgp.service.DepartementService"%>
 <%@page import="dev.sgp.service.CollaborateurService"%>
 <%@page import="dev.sgp.entite.Collaborateur"%>
+<%@page import="dev.sgp.entite.Departement"%>
 <%@page import="java.util.List, dev.sgp.*"%>
 <%@ page language="java" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -76,50 +78,73 @@
 			</div>
 
 		</div>
+		<form class="needs-validation mt-4" action="lister" method="post"
+			novalidate>
+			<div class="row mt-4">
 
-		<div class="row mt-4">
+				<div class="col-12 col-sm-6 col-md-6 col-lg-4 text-md-right">
+					Rechercher un nom ou un prénom qui commence par :</div>
 
-			<div class="col-12 col-sm-6 col-md-6 col-lg-4 text-md-right">
-				Rechercher un nom ou un prénom qui commence par :</div>
-
-			<div class="input-group col-12 col-sm-6 col-md-6 col-lg-4">
-				<input type="text" class="form-control"
-					aria-describedby="basic-addon2">
-				<div class="input-group-append">
-					<button class="btn btn-outline-secondary" type="button">Rechercher</button>
+				<div class="input-group col-12 col-sm-6 col-md-6 col-lg-4">
+					<input type="text" class="form-control"
+						aria-describedby="basic-addon2">
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary" type="submit">Rechercher</button>
+					</div>
 				</div>
+
+				<div
+					class="form-check col-12 col-sm-12 col-md-12 col-lg-4 text-right text-lg-center">
+					<input class="form-check-input" type="checkbox" value=""
+						id="defaultCheck1"> <label class="form-check-label"
+						for="defaultCheck1"> Voir les collaborateurs désactivés </label>
+				</div>
+
 			</div>
 
-			<div
-				class="form-check col-12 col-sm-12 col-md-12 col-lg-4 text-right text-lg-center">
-				<input class="form-check-input" type="checkbox" value=""
-					id="defaultCheck1"> <label class="form-check-label"
-					for="defaultCheck1"> Voir les collaborateurs désactivés </label>
+			<div class="row mt-4">
+
+				<div class="col-12 col-sm-6 col-lg-4 text-sm-right">Filtrer
+					par département :</div>
+
+				<div class="input-group col-12 col-sm-6 col-lg-4">
+					<select class="custom-select" id="departementInput"
+						name="departementInput">
+
+						<option selected value=0>Tous</option>
+
+						<%
+							List<Departement> departements = new DepartementService().listerDepartements();
+
+							for (Departement d : departements) {
+						%>
+
+						<option value=<%=d.getId()%>><%=d.getNom()%></option>
+
+						<%
+							}
+						%>
+					</select>
+				</div>
+
 			</div>
 
-		</div>
+		</form>
 
-		<div class="row mt-4">
-
-			<div class="col-12 col-sm-6 col-lg-4 text-sm-right">Filtrer par
-				département :</div>
-
-			<div class="input-group col-12 col-sm-6 col-lg-4">
-				<select class="custom-select" id="inputGroupSelect01">
-					<option selected>Tous</option>
-					<option value="1">Comptabilité</option>
-					<option value="2">Ressources Humaines</option>
-					<option value="3">Informatique</option>
-				</select>
-			</div>
-
-		</div>
 		<div class="row mt-4 ml-2 mr-2">
 
 			<%
 				List<Collaborateur> collaborateurs = CollaborateurService.listerCollaborateurs();
 
+				int filter = 0;
+
+				if ((String) request.getAttribute("filter") != null) {
+					filter = Integer.parseInt((String) request.getAttribute("filter"));
+				}
+
 				for (Collaborateur c : collaborateurs) {
+
+					if (filter == c.getDepartement().getId()) {
 			%>
 
 			<div class="card col-12 col-md-6 col-lg-6 col-xl-4 mb-2"
@@ -187,6 +212,7 @@
 			</div>
 
 			<%
+				}
 				}
 			%>
 		</div>
